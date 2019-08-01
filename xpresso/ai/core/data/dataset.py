@@ -10,22 +10,22 @@ import os
 #     ControllerClient
 import xpresso.ai.admin.controller.client.controller_client as controller
 
-from utils.xpr_exceptions import \
+from xpresso.ai.admin.controller.exceptions.xpr_exceptions import \
     SerializationFailedException, DeserializationFailedException
 from xpresso.ai.admin.controller.persistence.persistentce_connection import \
     create_persistence_object
 from xpresso.ai.admin.controller.user_management.usermanager import UserManager
-from utils.xpr_exceptions import \
+from xpresso.ai.admin.controller.utils.xpr_exceptions import \
     AuthenticationFailedException
-from src.dataset_info import DatasetInfo
-from src.dataset_type import DatasetType
-# from xpresso.ai.core.logging.xpr_log import XprLogger
-from utils.xpr_config_parser import XprConfigParser
+from xpresso.ai.core.data.dataset_info import DatasetInfo
+from xpresso.ai.core.data.dataset_type import DatasetType
+from xpresso.ai.core.logging.xpr_log import XprLogger
+from xpresso.ai.core.utils.xpr_config_parser import XprConfigParser
 
 __all__ = ['AbstractDataset']
 __author__ = 'Srijan Sharma'
 
-# logger = XprLogger()
+logger = XprLogger()
 
 
 class AbstractDataset(object):
