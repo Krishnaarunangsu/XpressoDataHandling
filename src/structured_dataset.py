@@ -9,7 +9,7 @@ from src.dataset import AbstractDataset
 from src.dataset_explorer import Explorer
 from src.dataset_type import DatasetType
 # from xpresso.ai.core.logging.xpr_log import XprLogger
-import csvdiff
+from csvdiff import diff_records
 
 __all__ = ['StructuredDataset']
 __author__ = 'Srijan Sharma'
@@ -73,18 +73,17 @@ class StructuredDataset(AbstractDataset):
             self.import_from_dataset(dataset_obj)
             return True
 
-    def diff(self,second):
+    def diff(self, second):
         """ Finds the difference between two dataset class"""
         metadata_diff = self.compare_metadata(self.info.attributeInfo,
                                               second.info.attributeInfo)
-        data_diff = self.compare_data(self.data,second.data)
+        data_diff = self.compare_data(self.data, second.data)
         print(metadata_diff)
         print(data_diff)
         pass
 
-
     @staticmethod
-    def compare_metadata(latest,old):
+    def compare_metadata(latest, old):
         """
         Compares the metadata of two dataset classes i.e. attributeInfo for
         each dataset is compared
@@ -95,66 +94,66 @@ class StructuredDataset(AbstractDataset):
         difference = list()
 
         for attr in latest:
-            metadata_latest.append((attr.name,attr.dtype,attr.type))
+            metadata_latest.append((attr.name,attr.dtype, attr.type))
 
         for attr in old:
-            metadata_old.append((attr.name,attr.dtype,attr.type))
+            metadata_old.append((attr.name, attr.dtype, attr.type))
 
         metadata_diff = list(set(metadata_old).symmetric_difference(set(
             metadata_latest)))
 
         for attr_diff in metadata_diff:
 
-            if attr_diff  in metadata_old:
+            if attr_diff in metadata_old:
                 name = attr_diff[0]
                 type = attr_diff[2]
 
-                #If the name is present in the old attributeinfo, but not in
+                # If the name is present in the old attributeinfo, but not in
                 # the new one
                 if name not in [attr[0] for attr in metadata_latest]:
                     print("{} has been removed.Not found in the latest "
                           "version".format(attr_diff))
-                    difference.append((name,"removed"))
+                    difference.append((name, "removed"))
                     identical = False
 
-                #if the attribute corresponding to that name is present in
+                # if the attribute corresponding to that name is present in
                 # old and new attributeinfo, but only the type has changed
                 for attr_latest in metadata_latest:
                     if name is attr_latest[0] and type is not attr_latest[2]:
                         print("Type of {} changed from {} to {} in the "
                               "latest version".format(
-                            name,type,attr_latest[2]))
-                        difference.append((name,"updated"))
+                            name, type, attr_latest[2]))
+                        difference.append((name, "updated"))
                         identical = False
                         break
 
-            #if the attribute is present in latest version but not in the old
+            # if the attribute is present in latest version but not in the old
             # version
             elif attr_diff in metadata_latest:
                 name = attr_diff[0]
                 print("{} added in the latest version".format(attr_diff))
-                difference.append((name,"added"))
+                difference.append((name, "added"))
                 identical = False
 
         if identical:
             print("Metadata for both versions identical")
         return difference
 
-
     @staticmethod
-    def compare_data(latest,old):
+    def compare_data(latest, old):
         """
         Compares the pandas dataframe of two dataset classes
         """
-        latest =  latest.dropna()
+        latest = latest.dropna()
         old = old.dropna()
 
-        latest['id'] = latest.apply(lambda x: hash(tuple(x)), axis = 1)
+        latest['id'] = latest.apply(lambda x: hash(tuple(x)), axis=1)
         old['id'] = old.apply(lambda x: hash(tuple(x)), axis=1)
         old_records = old.to_dict("records")
         latest_records = latest.to_dict("records")
-        data_diff = csvdiff.diff_records(old_records,latest_records, ['id'])
+        data_diff = diff_records(old_records, latest_records, ['id'])
         return data_diff
+
 
 if __name__ == "__main__":
     dataset = StructuredDataset()
