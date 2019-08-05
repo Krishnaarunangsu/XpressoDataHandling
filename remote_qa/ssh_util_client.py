@@ -10,7 +10,8 @@ print(ssh)
 
 
 client = paramiko.SSHClient()
-client.load_system_host_keys()
+print(client)
+print(client.load_system_host_keys())
 client.connect('uswv-uinq12003-001')
 stdin, stdout, stderr = client.exec_command('ls -l')
 

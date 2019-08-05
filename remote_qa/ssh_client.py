@@ -80,4 +80,6 @@ class SSHClient:
             return False, e, e
         return True, stdout, stderr
 
-
+if __name__ == "__main__":
+    ssh_client = SSHClient('uswv-uinq12003-001',username='xprops', password='abz00ba1nc')
+    print(ssh_client)

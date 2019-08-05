@@ -8,6 +8,7 @@ def get_hostname_by_ssh(host_ip):
     '''
     print('Checking out {}'.format(host_ip))
     ssh = paramiko.SSHClient()
+    print(f'SSH:{ssh}')
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(host_ip,
                 username='xprops',
