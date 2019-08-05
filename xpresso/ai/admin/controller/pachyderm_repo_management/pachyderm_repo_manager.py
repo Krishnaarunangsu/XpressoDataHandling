@@ -528,3 +528,7 @@ class PachydermRepoManager:
         if not match:
             return False
         return True
+
+if __name__ == "__main__":
+    p = PachydermRepoManager()
+    p.connect_to_pachyderm()

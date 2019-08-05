@@ -23,6 +23,7 @@ class PachydermClient:
         :param auth_token:
         """
         self.host = host
+        print(self.host)
         self.port = port
         self.auth_token = auth_token
         self.client = self.connect(host, port)
@@ -35,7 +36,9 @@ class PachydermClient:
         :param port:
         :return:
         """
+        print(host)
         client = pachyderm.PfsClient(host, port)
+        print(client)
         return client
 
     def create_new_repo(self, repo_name, description=None, update=None):
