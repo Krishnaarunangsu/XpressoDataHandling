@@ -1,14 +1,14 @@
-# from xpresso.ai.core.logging.xpr_log import XprLogger
-# from xpresso.ai.admin.controller.exceptions.xpr_exceptions import *
-import python_pachyderm  as pachyderm
-from xpresso.ai.admin.controller.pachyderm_repo_management.pachyderm_client \
-    import PachydermClient
-from xpresso.ai.core.utils.xpr_config_parser import XprConfigParser
+import os
+import datetime
 import re
+import pickle
 import json
 
+import  src.dataset_1 as datasetmodule
+from src.pachyderm_client import PachydermClient
 
-class PachydermRepoManagerTest:
+
+class PachydermRepoManager:
     """
     Manages repos on pachyderm cluster
     """
@@ -108,10 +108,54 @@ class PachydermRepoManagerTest:
         #     client.put_file_bytes(c, '/dir_a/data.txt', b'DATA')
 
 
+    #def push_dataset(self, repo_name, branch_name, dataset, description):
 
+    def push_dataset(self, dataset, description):
+        """
+        pushes a dataset into pachyderm cluster
+
+        :param repo_name:
+            name of the repo i.e. project in this case
+        :param branch_name:
+            name of the branch
+        :param dataset:
+            AbstractDataset object with info on dataset
+        :param description:
+            brief description regarding this push
+        :return:
+            returns commit_id if push is successful
+        """
+        abstract_dataset = datasetmodule.AbstractDataset
+        if not isinstance(dataset, abstract_dataset):
+            # raise DatasetInfoException("Provided dataset is invalid")
+            raise Exception
+        # First Save the dataset locally
+
+
+    @staticmethod
+    def fetch_file_list(dataset_dir, dataset_name):
+        """
+        fetches the list of file paths recursively in a directory
+
+        :param dataset_dir:
+            path of the dataset directory
+        :param dataset_name:
+            name of the dataset
+        :return:
+            returns a list of file paths inside the dataset directory
+        """
+        file_list = []
+        pachyderm_destination_path = f"dataset/{dataset_name}"
+        for dir_path, dirs, files in os.walk(dataset_dir):
+            for file in files:
+                file_path = os.path.join(dir_path, file)
+                destination_path = file_path.replace(dataset_dir, pachyderm_destination_path, 1)
+                file_list.append((file_path, destination_path))
+
+        return file_list
 
 if __name__ == "__main__":
-    p = PachydermRepoManagerTest(list_of_repo=list())
+    p = PachydermRepoManager(list_of_repo=list())
 
      # read file
     with open('create_repo.json', 'r') as myfile:
@@ -129,6 +173,3 @@ if __name__ == "__main__":
 
 
     #print(p)
-
-
-

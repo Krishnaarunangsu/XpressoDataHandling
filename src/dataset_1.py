@@ -10,22 +10,23 @@ import os
 #     ControllerClient
 import xpresso.ai.admin.controller.client.controller_client as controller
 
-from xpresso.ai.admin.controller.exceptions.xpr_exceptions import \
-    SerializationFailedException, DeserializationFailedException
+from exception_handling import *
+# from utils.xpr_exceptions import \
+    # SerializationFailedException, DeserializationFailedException
 from xpresso.ai.admin.controller.persistence.persistentce_connection import \
     create_persistence_object
 from xpresso.ai.admin.controller.user_management.usermanager import UserManager
-from xpresso.ai.admin.controller.utils.xpr_exceptions import \
+from utils.xpr_exceptions import \
     AuthenticationFailedException
-from xpresso.ai.core.data.dataset_info import DatasetInfo
-from xpresso.ai.core.data.dataset_type import DatasetType
-from xpresso.ai.core.logging.xpr_log import XprLogger
-from xpresso.ai.core.utils.xpr_config_parser import XprConfigParser
+from src.dataset_info import DatasetInfo
+from src.dataset_type import DatasetType
+# from xpresso.ai.core.logging.xpr_log import XprLogger
+from utils.xpr_config_parser import XprConfigParser
 
 __all__ = ['AbstractDataset']
 __author__ = 'Srijan Sharma'
 
-logger = XprLogger()
+# logger = XprLogger()
 
 
 class AbstractDataset(object):
@@ -147,8 +148,7 @@ class AbstractDataset(object):
     def get_pickle_pattern(self):
         """ Generates a name pattern for all the pickle file. This is
          used to generate the absolute file path maintaining the versions"""
-        parent_dir = self.\
-            get_local_storage_path()
+        parent_dir = self.get_local_storage_path()
         return os.path.join(parent_dir, f"{self.name}_dataset__%s.pkl")
 
     def get_highest_pickle_file_number(self, pickle_base_name_pattern):

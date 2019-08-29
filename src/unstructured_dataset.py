@@ -1,6 +1,6 @@
 """ Class design for Dataset"""
 
-from src.dataset import AbstractDataset
+from src.dataset_1 import AbstractDataset
 from src.dataset_type import DatasetType
 
 __all__ = ['UnstructuredDataset']

@@ -532,3 +532,4 @@ class PachydermRepoManager:
 if __name__ == "__main__":
     p = PachydermRepoManager()
     p.connect_to_pachyderm()
+    p.create_repo()

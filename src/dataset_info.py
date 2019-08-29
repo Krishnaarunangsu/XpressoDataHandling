@@ -104,8 +104,8 @@ class DatasetInfo:
 
     def populate_attribute(self, data, date_type):
         if not isinstance(date_type, DatasetType):
-            logger.error("Unacceptable Data type provided. Type {} is "
-                         "not supported".format(date_type))
+            #logger.error("Unacceptable Data type provided. Type {} is "
+                         #"not supported".format(date_type))
             raise InvalidDatatypeException("Provided Data Type : {} not "
                                            "supported".format(date_type))
 
@@ -125,8 +125,8 @@ class DatasetInfo:
     # populates multi variate metric analysis
     def populate_metric(self, data, data_type):
         if not isinstance(data_type, DatasetType):
-            logger.error("Unacceptable Data type provided. Type {} is "
-                         "not supported".format(data_type))
+            #logger.error("Unacceptable Data type provided. Type {} is "
+                         #"not supported".format(data_type))
             raise InvalidDatatypeException("Provided Data Type : {} not "
                                            "supported".format(data_type))
         # For structured datatype
